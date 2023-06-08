@@ -3,14 +3,14 @@ Real estate application to see the state of the market in the Charente-Maritime 
 
 ## The app is divided in 4 pages:
 
-###"État dumarché":
+"État dumarché":
 - Overview of the real estate market with data per year or city
 
-###"Achat ou Vente":
+"Achat ou Vente":
 - Get more in depth information about the market if you want to buy, sell or rent a property
 
-###"Estimation":
+"Estimation":
 - Estimate a house or an appartment from the adress and other features
 
-###"Points d'intérêts":
-- Map of a list of points of interests in the region (health, education, culture...)
+"Points d'intérêts":
+- Map of a list of points of interests in the region (health, education, culture...
