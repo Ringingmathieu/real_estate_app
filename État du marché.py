@@ -33,7 +33,7 @@ st.markdown(
 st.sidebar.title("POWER IMMO")
 
 ############################################### CHARGEMENT DF
-df = pd.read_csv('immo_app/data/df_17.csv')
+df = pd.read_csv('app/real_estate_app/data/df_17.csv')
 df = df.dropna(subset=['code_postal'])
 #st.write(df)
 ############################################### FILTRES
