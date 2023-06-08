@@ -4,3 +4,5 @@ geopy
 geopandas
 sklearn
 scikit-learn
+distance
+Nominatim
