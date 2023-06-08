@@ -1,5 +1,5 @@
 plotly
-streamlit_plotly_events
+plotly_events
 geopy
 geopandas
 sklearn
