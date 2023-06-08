@@ -1,6 +1,7 @@
 plotly
-plotly_events
+streamlit_plotly_events
 geopy
+geopy.geocoder
 geopandas
 sklearn
 scikit-learn
