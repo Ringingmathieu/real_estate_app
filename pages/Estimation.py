@@ -26,7 +26,7 @@ st.markdown(
 # a corrigers sur le df pour les anomalie
 
 geolocator = Nominatim(user_agent="my_app")
-df_17 = df_17 = pd.read_csv('immo_app/data/df_17.csv')
+df_17 = df_17 = pd.read_csv('app/real_estate_app/data/df_17.csv')
 df_17['prix_m2'] = df_17['valeur_fonciere'] / df_17['surface_reelle_bati']
 #st.write(df_17)
 
