@@ -23,7 +23,7 @@ st.markdown(
 )
 
 ############################################### CHARGEMENT DF
-df = pd.read_csv('immo_app/data/df_17.csv')
+df = pd.read_csv('app/real_estate_app/data/df_17.csv')
 df = df.dropna(subset=['code_postal'])
 
 
@@ -33,16 +33,16 @@ df = df.dropna(subset=['code_postal'])
 # select_annee = st.selectbox('Selection de l\'année',options=annee_dispo, index=0)
 
 #importation des csv des traces
-df_gare = pd.read_csv('immo_app/data/gare_17.csv')
-df_hopital = pd.read_csv('immo_app/data/hopital_17.csv')
-df_pharmacie = pd.read_csv('immo_app/data/pharmacie_17.csv')
-df_ecole = pd.read_csv('immo_app/data/ecole_17.csv')
-df_price = pd.read_csv('immo_app/data/Price_commune.csv')
-df_cinema = pd.read_csv('immo_app/data/cinema_17.csv')
-df_musee = pd.read_csv('immo_app/data/musee_17.csv')
+df_gare = pd.read_csv('app/real_estate_app/data/gare_17.csv')
+df_hopital = pd.read_csv('app/real_estate_app/data/hopital_17.csv')
+df_pharmacie = pd.read_csv('app/real_estate_app/data/pharmacie_17.csv')
+df_ecole = pd.read_csv('app/real_estate_app/data/ecole_17.csv')
+df_price = pd.read_csv('app/real_estate_app/data/Price_commune.csv')
+df_cinema = pd.read_csv('app/real_estate_app/data/cinema_17.csv')
+df_musee = pd.read_csv('app/real_estate_app/data/musee_17.csv')
 df_ecole_pl = df_ecole[df_ecole['Secteur Public/Privé'] == 'Public']
 df_ecole_pv = df_ecole[df_ecole['Secteur Public/Privé'] == 'Privé']
-df_covoit = pd.read_csv('immo_app/data/covoiturage_17.csv')
+df_covoit = pd.read_csv('app/real_estate_app/data/covoiturage_17.csv')
 
 #format des traces
 x_gare = list(df_gare.iloc[:, 1])
