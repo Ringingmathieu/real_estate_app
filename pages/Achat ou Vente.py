@@ -134,8 +134,8 @@ select_commune = None
 
 
 ############################################### CHARGEMENT DF
-df = pd.read_csv('immo_app/data/Price_commune.csv')
-df_17 = pd.read_csv('immo_app/data/df_17.csv')
+df = pd.read_csv('app/real_estate_app/data/Price_commune.csv')
+df_17 = pd.read_csv('app/real_estate_app/data/df_17.csv')
 ###### tri df , je le fais ici mais faudrait le cleanner un peu plus, valeur fonciére none ou adjudiction a - de 200 Euros/m2 a kill a mon avis
 df_17 = df_17[df_17['annee']==2022]
 #st.dataframe(df)
