@@ -33,7 +33,7 @@ st.markdown(
 st.sidebar.title("POWER IMMO")
 
 ############################################### CHARGEMENT DF
-df = pd.read_csv('df_17.csv')
+df = pd.read_csv('data/df_17.csv')
 df = df.dropna(subset=['code_postal'])
 #st.write(df)
 ############################################### FILTRES
@@ -167,7 +167,7 @@ df_map = df_map.dropna(subset=['valeur_fonciere'])
 df_map = df_map.drop(df_map[df_map['type_local'] == 'Local industriel. commercial ou assimilé'].index)
 df_map = df_map.drop(df_map[df_map['type_local'] == 'Dépendance'].index)
 
-price_commune = pd.read_csv('Price_commune.csv')
+price_commune = pd.read_csv('data/Price_commune.csv')
 
 df_data = px.data.carshare()
 
