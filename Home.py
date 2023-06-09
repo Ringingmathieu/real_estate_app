@@ -140,7 +140,7 @@ df_map = df_map.dropna(subset=['valeur_fonciere'])
 df_map = df_map.drop(df_map[df_map['type_local'] == 'Local industriel. commercial ou assimilé'].index)
 df_map = df_map.drop(df_map[df_map['type_local'] == 'Dépendance'].index)
 
-price_commune = pd.read_csv('immo_app/data/Price_commune.csv')
+price_commune = pd.read_csv('data/Price_commune.csv')
 
 df_data = px.data.carshare()
 
