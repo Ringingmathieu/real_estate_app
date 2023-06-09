@@ -6,7 +6,7 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 
 geolocator = Nominatim(user_agent="my_app")
-df_17 = df_17 = pd.read_csv('df_17.csv')
+df_17 = df_17 = pd.read_csv('data/df_17.csv')
 df_17['prix_m2'] = df_17['valeur_fonciere'] / df_17['surface_reelle_bati']
 #st.write(df_17)
 ############################################### INIT SIDEBAR
