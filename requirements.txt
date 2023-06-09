@@ -1,7 +1,5 @@
-python -m pip install -- upgrade pip
 plotly
 streamlit_plotly_events
 geopy
 geopandas
-sklearn
 scikit-learn
