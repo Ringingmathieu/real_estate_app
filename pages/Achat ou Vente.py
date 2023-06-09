@@ -1,3 +1,10 @@
+# voir pour garder le zoom de plolty chart au meme niveau que lors du clique pour eviter de rezommer a chaque fois
+
+
+#### DEBUG A FAIRE SUR :
+       # gerer les oulier sur les données max de Charente Maritime
+        # peut etre retirer les outliers ou pour les montants de + de 15K/m2 faire opération (valeur_fonciere / superficie_terrain)
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -83,6 +90,10 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+############################################### INIT SIDEBAR
+st.sidebar.title("POWER IMMO")
+
 st.markdown(
     """
     <style>
@@ -134,8 +145,8 @@ select_commune = None
 
 
 ############################################### CHARGEMENT DF
-df = pd.read_csv('data/Price_commune.csv')
-df_17 = pd.read_csv('data/df_17.csv')
+df = pd.read_csv('Price_commune.csv')
+df_17 = pd.read_csv('df_17.csv')
 ###### tri df , je le fais ici mais faudrait le cleanner un peu plus, valeur fonciére none ou adjudiction a - de 200 Euros/m2 a kill a mon avis
 df_17 = df_17[df_17['annee']==2022]
 #st.dataframe(df)
@@ -228,11 +239,17 @@ with ta:
         a, b = st.columns(2)
         with a:
             #### CALCUL SUR DF_17 PV MEAN APPART 
+           
             if len(df_17[df_17['type_local'] == 'Appartement']):
                 moyenne_appartement = df_17[df_17['type_local'] == 'Appartement']['valeur_fonciere'].mean()
+                #st.write(df_17)
                 moyenne_appartement_m2 = df_17[df_17['type_local'] == 'Appartement']['surface_reelle_bati'].mean()
-                moyenne_min_appartement = df_17[df_17['type_local'] == 'Appartement'].groupby('type_local')['valeur_fonciere', 'surface_reelle_bati'].apply(lambda x: (x['valeur_fonciere'] / x['surface_reelle_bati']).min())
-                moyenne_max_appartement = df_17[df_17['type_local'] == 'Appartement'].groupby('type_local')['valeur_fonciere', 'surface_reelle_bati'].apply(lambda x: (x['valeur_fonciere'] / x['surface_reelle_bati']).max())
+                DF_moyenne_min_appartement = df_17[df_17['type_local'] == 'Appartement'].groupby('type_local')
+                DF_moyenne_min_appartement = DF_moyenne_min_appartement[['valeur_fonciere', 'surface_reelle_bati']]
+                moyenne_min_appartement = DF_moyenne_min_appartement.apply(lambda x: (x['valeur_fonciere'] / x['surface_reelle_bati']).min())
+                DF_moyenne_max_appartement = df_17[df_17['type_local'] == 'Appartement'].groupby('type_local')
+                DF_moyenne_max_appartement = DF_moyenne_max_appartement[['valeur_fonciere', 'surface_reelle_bati']]
+                moyenne_max_appartement = DF_moyenne_max_appartement.apply(lambda x: (x['valeur_fonciere'] / x['surface_reelle_bati']).max())
                 moyenne_appartement = round(moyenne_appartement/moyenne_appartement_m2)
                 moyenne_min_appartement = round(moyenne_min_appartement[0])
                 moyenne_max_appartement = round(moyenne_max_appartement[0])
@@ -262,10 +279,18 @@ with ta:
         with a:
             #### CALCUL SUR DF_17 PV MEAN MAISON 
             if len(df_17[df_17['type_local'] == 'Maison']):
+                #st.write(df_17)
                 moyenne_maison = df_17[df_17['type_local'] == 'Maison']['valeur_fonciere'].mean()
                 moyenne_maison_m2 = df_17[df_17['type_local'] == 'Maison']['surface_reelle_bati'].mean()
-                moyenne_min_maison = df_17[df_17['type_local'] == 'Maison'].groupby('type_local')['valeur_fonciere', 'surface_reelle_bati'].apply(lambda x: (x['valeur_fonciere'] / x['surface_reelle_bati']).min())
-                moyenne_max_maison = df_17[df_17['type_local'] == 'Maison'].groupby('type_local')['valeur_fonciere', 'surface_reelle_bati'].apply(lambda x: (x['valeur_fonciere'] / x['surface_reelle_bati']).max())
+                     
+                DF_moyenne_min_maison = df_17[df_17['type_local'] == 'Maison'].groupby('type_local')
+                DF_moyenne_min_maison = DF_moyenne_min_maison[['valeur_fonciere', 'surface_reelle_bati']]
+                moyenne_min_maison = DF_moyenne_min_maison.apply(lambda x: (x['valeur_fonciere'] / x['surface_reelle_bati']).min())
+              
+                DF_moyenne_max_maison = df_17[df_17['type_local'] == 'Maison'].groupby('type_local')
+                DF_moyenne_max_maison = DF_moyenne_max_maison[['valeur_fonciere', 'surface_reelle_bati']]
+                moyenne_max_maison = DF_moyenne_max_maison.apply(lambda x: (x['valeur_fonciere'] / x['surface_reelle_bati']).max())
+                     
                 moyenne_maison = round(moyenne_maison/moyenne_maison_m2)
                 moyenne_min_maison = round(moyenne_min_maison[0])
                 moyenne_max_maison = round(moyenne_max_maison[0])
@@ -432,7 +457,7 @@ with tb:
             st.markdown("*Nombre de logement vacant*")
 
         st.divider()
-        st.write("""<h3 style="text-align:center"><span style="color:grey;font-weight:lighter">Dernières </span> ventes 2022</h3>""", unsafe_allow_html=True)
+        st.write("""<h3 style="text-align:center"><span style="color:grey;font-weight:lighter">Derniére </span> vente 2022</h3>""", unsafe_allow_html=True)
 
         if st.session_state.commune_selection != "Charente-Maritime":
             df_ventes = df_17[df_17["nom_commune"] == st.session_state.commune_selection]
