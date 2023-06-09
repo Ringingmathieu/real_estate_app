@@ -4,40 +4,25 @@ from geopy.geocoders import Nominatim
 from geopy import distance
 import pandas as pd
 from sklearn.linear_model import LinearRegression
-############################################### FONCTION
-
-############################################### CONFIG
-st.set_page_config(
-    page_title="Estime ton bien !",
-    page_icon="🧊",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
-st.markdown(
-    """
-    <style>
-    body {
-        background-color: #f5f5f5;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-# a corrigers sur le df pour les anomalie
 
 geolocator = Nominatim(user_agent="my_app")
-df_17 = df_17 = pd.read_csv('data/df_17.csv')
+df_17 = df_17 = pd.read_csv('df_17.csv')
 df_17['prix_m2'] = df_17['valeur_fonciere'] / df_17['surface_reelle_bati']
 #st.write(df_17)
+############################################### INIT SIDEBAR
+st.sidebar.title("POWER IMMO")
+
 
 def get_coordinates(address):
-    location = geolocator.geocode(address)
-    if location:
+    location = geolocator.geocode(address, timeout = 25)
+    #st.write(location)
+    if location is not None:
         latitude = location.latitude
         longitude = location.longitude
         return latitude, longitude
     else:
         return False
+
     
 def linearRegression(encoded_df, select_local_type, select_surface_reelle_bati, select_surface_terrain, nb_piece_prin):
     encoded_df = pd.get_dummies(df, columns=["type_local"])
@@ -156,13 +141,13 @@ st.title("Estimer votre bien")
 address = st.text_input("Entrez une adresse")
 az, er, ty,ui = st.columns(4)
 with az:
-    select_local_type = st.selectbox("Type de bien", options=["Maison", "Appartement"])
+    select_local_type = st.selectbox("Tyope de bien", options=["Maison", "Appartement"])
 with er:
     select_surface_reelle_bati = st.number_input("Surface habitable en m2", step=1, min_value=0)
 with ty:
     select_surface_terrain = st.number_input("Surface terrain en m2", step=1, min_value=0)
 with ui:
-    select_piece_principale = st.number_input("Nombre Pièces Principales", step=1, min_value=0)
+    select_piece_principale = st.number_input("Nombre Piéces Principales", step=1, min_value=0)
 
 a,b,c,d,e = st.columns(5)
 with c:
@@ -208,9 +193,9 @@ if btn:
                 df = pd.DataFrame(donnee2022et2021secteur)
                 linearRegression(df,select_local_type,select_surface_reelle_bati, select_surface_terrain,select_piece_principale )
             else:
-                st.header("Pas assez de données pour estimer.")
+                st.header("Pas assez de donnée pour estimer.")
         else:
-            st.header("Pas assez de données pour estimer.")
+            st.header("Pas assez de donnée pour estimer.")
             
 
 
@@ -233,7 +218,7 @@ if btn:
             
             # calcul price
             if len(liste_maison_vendus_2022):
-                st.write(liste_maison_vendus_2022)
+                #st.write(liste_maison_vendus_2022)
                 prix_m2_2022_maison = round(liste_maison_vendus_2022['prix_m2'].sum() / nombre_maison_vendus_2022)
                 ###### END CALCUL
 
@@ -263,11 +248,6 @@ if btn:
 
                 st.subheader(str(prix_m2_2022_appart)+" €/m2")
 
-        # affiche le data frame des ventes pour la curiosité
-        st.write('Données pour 2022')
-        donnee2022secteur['prix/m2'] = round(donnee2022secteur['valeur_fonciere'] / donnee2022secteur['surface_reelle_bati'])
-
-        st.dataframe(donnee2022secteur)
-
     else:
         st.error("Adresse invalide")
+
