@@ -27,13 +27,13 @@ st.markdown(
     }
     </style>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True 
 )
 ############################################### INIT SIDEBAR
 st.sidebar.title("POWER IMMO")
 
 ############################################### CHARGEMENT DF
-df = pd.read_csv('data/df_17.csv')
+df = pd.read_csv('df_17.csv')
 df = df.dropna(subset=['code_postal'])
 #st.write(df)
 ############################################### FILTRES
@@ -59,16 +59,31 @@ filtered_df = df[(df["annee"] == select_annee) & (df["type_local"] == "Maison")]
 pperm_m = filtered_df.groupby("mois").apply(lambda x: x["valeur_fonciere"].sum() / x["surface_reelle_bati"].sum())
 filtered_df = df[(df["annee"] == select_annee) & (df["type_local"] == "Appartement")]
 pperm_a = filtered_df.groupby("mois").apply(lambda x: x["valeur_fonciere"].sum() / x["surface_reelle_bati"].sum())
+
+if len(pperm_a) == 0:
+    pperm_a = pd.DataFrame(columns=['1'])
+if len(pperm_m) == 0:
+    pperm_m = pd.DataFrame(columns=['0'])
+    
+
 combined_df_vente = pd.concat([pperm_m, pperm_a], axis=1)
 combined_df_vente.columns = ['Maison', 'Appartement']
+#combined_df_vente = combined_df_vente.rename(columns={0: "Maison", 1: "Appartement"})
 
 # creation du df volume /vente graph
 filtered_df = df[(df["annee"] == select_annee) & (df["type_local"] == "Maison")]
 pperm_m1 = filtered_df.groupby("mois").apply(lambda x: x["id_mutation"].count())
 filtered_df = df[(df["annee"] == select_annee) & (df["type_local"] == "Appartement")]
 pperm_a1 = filtered_df.groupby("mois").apply(lambda x: x["id_mutation"].count())
+
+if len(pperm_a1) == 0:
+    pperm_a1 = pd.DataFrame(columns=['1'])
+if len(pperm_m1) == 0:
+    pperm_m1 = pd.DataFrame(columns=['0'])
+    
 combined_df_vol= pd.concat([pperm_m1, pperm_a1], axis=1)
 combined_df_vol.columns = ['Maison', 'Appartement']
+#combined_df_vol = combined_df_vol.rename(columns={0: "Maison", 1: "Appartement"})
 
 ############################################### MAINPAGE
 dyna_default = "Charente Maritime"
@@ -100,15 +115,25 @@ if select_annee != min(annee_dispo):
 
     filtered_df_appartement_m2_before = df[(df["annee"] == select_annee-1) & (df["type_local"] == "Appartement")]
     pperm_m_a_before = filtered_df_appartement_m2_before.groupby("annee").apply(lambda x: x["valeur_fonciere"].sum() / x["surface_reelle_bati"].sum())
-    #st.write(pperm_m_a_before)
-    dif_percent_appartement = difference(pperm_m_a_before.iloc[0],pperm_m_a.iloc[0])
+    if (len(pperm_m_a_before) == 0) and (len(pperm_m_a) == 0):
+        dif_percent_appartement = "0 %"
+    else:
+        #st.write(pperm_m_a_before)
+        dif_percent_appartement = difference(pperm_m_a_before.iloc[0],pperm_m_a.iloc[0])
 else:
     dif_percent_maison = "0 %"
     dif_percent_appartement = "0 %"
 
 # init metric principal
-metric1 = str(round(pperm_m_m.iloc[0]))+ " €/m²"
-metric2 = str(round(pperm_m_a.iloc[0]))+ " €/m²"
+if len(pperm_m_m) != 0:
+    metric1 = str(round(pperm_m_m.iloc[0]))+ " €/m²"
+else:
+    metric1= "null"
+    
+if len(pperm_m_a) != 0:
+    metric2 = str(round(pperm_m_a.iloc[0]))+ " €/m²"
+else:
+    metric2 = "null"
 
 # init dif % metric
 
@@ -127,6 +152,8 @@ with col1:
     st.line_chart(combined_df_vente)
 with col2:
     st.subheader("Evolution du volume de ventes")
+    #st.write(combined_df_vol)
+    combined_df_vol = combined_df_vol.fillna(0)
     st.line_chart(combined_df_vol)
 
 st.divider()
@@ -140,7 +167,7 @@ df_map = df_map.dropna(subset=['valeur_fonciere'])
 df_map = df_map.drop(df_map[df_map['type_local'] == 'Local industriel. commercial ou assimilé'].index)
 df_map = df_map.drop(df_map[df_map['type_local'] == 'Dépendance'].index)
 
-price_commune = pd.read_csv('data/Price_commune.csv')
+price_commune = pd.read_csv('Price_commune.csv')
 
 df_data = px.data.carshare()
 
@@ -151,6 +178,19 @@ fig_5 = px.scatter_mapbox(df_map, lat="latitude", lon="longitude", color="type_l
                   mapbox_style="carto-positron" )
 fig_5.update_traces(opacity=0.7)
 fig_5.update_layout(height=600)
+# fig_5.add_trace(
+#     ff.create_hexbin_mapbox(
+#     data_frame=price_commune, lat="latitude", lon="longitude",
+#     nx_hexagon=50, opacity=0.5, labels={"color": "Prix au m2"},
+#     min_count=1, color="price_per_carre_2022"
+# )
+# )
+
 
 # view trace
 st.plotly_chart(fig_5, use_container_width=True)
+
+
+# trouver une commune entre plusieurs paramétres.
+
+# remplacer le multislect par des checkbox par catégorie.
