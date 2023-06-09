@@ -23,7 +23,7 @@ st.markdown(
 )
 
 ############################################### CHARGEMENT DF
-df = pd.read_csv('df_17.csv')
+df = pd.read_csv('data/df_17.csv')
 df = df.dropna(subset=['code_postal'])
 ############################################### INIT SIDEBAR
 st.sidebar.title("POWER IMMO")
@@ -34,16 +34,16 @@ st.sidebar.title("POWER IMMO")
 # select_annee = st.selectbox('Selection de l\'année',options=annee_dispo, index=0)
 
 #importation des csv des traces
-df_gare = pd.read_csv('gare_17.csv')
-df_hopital = pd.read_csv('hopital_17.csv')
-df_pharmacie = pd.read_csv('pharmacie_17.csv')
-df_ecole = pd.read_csv('ecole_17.csv')
-df_price = pd.read_csv('Price_commune.csv')
-df_cinema = pd.read_csv('cinema_17.csv')
-df_musee = pd.read_csv('musee_17.csv')
+df_gare = pd.read_csv('data/gare_17.csv')
+df_hopital = pd.read_csv('data/hopital_17.csv')
+df_pharmacie = pd.read_csv('data/pharmacie_17.csv')
+df_ecole = pd.read_csv('data/ecole_17.csv')
+df_price = pd.read_csv('data/Price_commune.csv')
+df_cinema = pd.read_csv('data/cinema_17.csv')
+df_musee = pd.read_csv('data/musee_17.csv')
 df_ecole_pl = df_ecole[df_ecole['Secteur Public/Privé'] == 'Public']
 df_ecole_pv = df_ecole[df_ecole['Secteur Public/Privé'] == 'Privé']
-df_covoit = pd.read_csv('covoiturage_17.csv')
+df_covoit = pd.read_csv('data/covoiturage_17.csv')
 
 #format des traces
 x_gare = list(df_gare.iloc[:, 1])
