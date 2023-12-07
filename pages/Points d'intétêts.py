@@ -82,7 +82,7 @@ name_covoit = list(df_covoit.iloc[:, 2])
 a, b, c, d = st.columns(4)
 with a:
     st.markdown("**Santé**")
-    hopital = st.checkbox('Hopital')
+    hopital = st.checkbox('Hôpital')
     pharmacie = st.checkbox('Pharmacie')
 
 with b:
@@ -92,8 +92,8 @@ with b:
 
 with c:
     st.markdown("**Education**")
-    ecole_public = st.checkbox('Ecole Public')
-    ecole_prive = st.checkbox('Ecole privé')
+    ecole_public = st.checkbox('Ecole Publique')
+    ecole_prive = st.checkbox('Ecole privée')
 
 with d:
     st.markdown("**Mobilité**")
@@ -145,7 +145,7 @@ if hopital:
             text=name_hopital,
             hoverinfo='text',
             marker=dict(size=10, color='red', opacity=1),
-            name="Hopital"
+            name="Hôpital"
         )
     )
 
@@ -170,7 +170,7 @@ if ecole_public:
             text=name_ecole_pl,
             hoverinfo='text',
             marker=dict(size=10, color='grey', opacity=0.8),
-            name="Ecole Public"
+            name="Ecole Publique"
         )
     )
 if ecole_prive:
@@ -182,7 +182,7 @@ if ecole_prive:
             text=name_ecole_pv,
             hoverinfo='text',
             marker=dict(size=10, color='grey', opacity=0.8),
-            name="Ecole Privé"
+            name="Ecole Privée"
         )
     )
 if cinema:
