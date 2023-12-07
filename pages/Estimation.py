@@ -141,13 +141,13 @@ st.title("Estimer votre bien")
 address = st.text_input("Entrez une adresse")
 az, er, ty,ui = st.columns(4)
 with az:
-    select_local_type = st.selectbox("Tyope de bien", options=["Maison", "Appartement"])
+    select_local_type = st.selectbox("Type de bien", options=["Maison", "Appartement"])
 with er:
     select_surface_reelle_bati = st.number_input("Surface habitable en m2", step=1, min_value=0)
 with ty:
     select_surface_terrain = st.number_input("Surface terrain en m2", step=1, min_value=0)
 with ui:
-    select_piece_principale = st.number_input("Nombre Piéces Principales", step=1, min_value=0)
+    select_piece_principale = st.number_input("Nombre pièces principales", step=1, min_value=0)
 
 a,b,c,d,e = st.columns(5)
 with c:
@@ -193,9 +193,9 @@ if btn:
                 df = pd.DataFrame(donnee2022et2021secteur)
                 linearRegression(df,select_local_type,select_surface_reelle_bati, select_surface_terrain,select_piece_principale )
             else:
-                st.header("Pas assez de donnée pour estimer.")
+                st.header("Pas assez de données pour estimer.")
         else:
-            st.header("Pas assez de donnée pour estimer.")
+            st.header("Pas assez de données pour estimer.")
             
 
 
